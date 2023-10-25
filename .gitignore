@@ -1,0 +1,4 @@
+node_modules/
+
+# For testing purposes, I will push .env file to repo as well.
+# .env
