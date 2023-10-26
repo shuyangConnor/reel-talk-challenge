@@ -11,8 +11,7 @@ exports.getMovies = catchAsync(async (req, res, next) => {
         url: `https://api.themoviedb.org/3/discover/movie?page=${i}`,
         headers: {
           accept: 'application/json',
-          Authorization:
-            'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIzZDQyZTc0NDgwZjhkYzZkM2RiNDhhYmYxMTkxNTE3NCIsInN1YiI6IjY0MzM1Mzc3OWE2NDM1MDZhYjc5MDYwNyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.OxbeuIwkdIGgr3ASzdokoy2YuTcZUys2cpoLwoNbVdk',
+          Authorization: `Bearer ${process.env.MOVIE_DB_API_KEY}`,
         },
       })
     )
