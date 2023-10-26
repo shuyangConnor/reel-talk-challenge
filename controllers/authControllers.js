@@ -1,6 +1,7 @@
 const catchAsync = require('../utils/catchAsync')
 const { db, auth } = require('../firebase')
 const axios = require('axios')
+const sendPasswordReset = require('../utils/email')
 
 // Check if password satisfy the requirements.
 // The password must be at least 8 characters in length and include both at least one uppercase and at least one lowercase letter.
@@ -43,8 +44,9 @@ const signInAndSendToken = async (user, password, statusCode, req, res) => {
     })
   } catch (err) {
     // Sends back error if there is one.
-    res.status(500).json({
+    res.status(400).json({
       status: 'error',
+      message: 'Password is wrong.',
       data: {
         err,
       },
@@ -164,11 +166,10 @@ exports.forgetPassword = catchAsync(async (req, res, next) => {
     actionCodeSettings
   )
 
+  await sendPasswordReset(link, req.body.email)
+
   // Sends back the link.
   res.status(200).json({
     status: 'success',
-    data: {
-      link,
-    },
   })
 })

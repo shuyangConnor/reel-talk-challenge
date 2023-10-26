@@ -127,6 +127,8 @@ Also, for the "Create Comment" and "Create Like" route, I used a protect middlew
 
 - It is worth noticing that only using Firebase on the backend will make many things much more complicated than using it on both the frontend and the backend. For example, the user login process will be much easier to be done with the frontend, and the Firebase Client SDK can maintain the user logged in state automatically, so we may not need to use the cookie. But just for the requirements of this project and to showcase my backend development skills, I implemented it solely on the backend.
 
+- Due to the scope and time of this project, I haven't implemented things like **refresh token** and **csrf token**. It is very important to use when we are dealing with cookies and tokens.
+
 ## Contribution
 
 Contributions, issues and feature requests are welcome!

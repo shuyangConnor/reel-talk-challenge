@@ -40,3 +40,43 @@ exports.createLike = catchAsync(async (req, res, next) => {
     status: 'success',
   })
 })
+
+exports.getLikes = catchAsync(async (req, res, next) => {
+  // Retrieve all the like documents.
+  const likeDocs = await db
+    .collection('users')
+    .doc(req.user.uid)
+    .collection('likes')
+    .get()
+
+  // If the user haven't liked anything, send a sucess response and indicate that.
+  if (likeDocs.empty) {
+    res.status(200).json({
+      status: 'success',
+      message: "The user haven't liked anything.",
+    })
+  }
+
+  // Get data from all the documentation.
+  const likeData = likeDocs.docs.map((likeDoc) => {
+    return likeDoc.data()
+  })
+
+  // Retrieve the comment that associates with each use like, stores it in data and delete the comment reference.
+  await Promise.all(
+    likeData.map(async (el) => {
+      const commentDoc = await el.comment_ref.get()
+      el.comment = commentDoc.data()
+      delete el.comment_ref
+      return commentDoc
+    })
+  )
+
+  // Sends back all the comment user liked.
+  res.status(200).json({
+    status: 'success',
+    data: {
+      likes: likeData,
+    },
+  })
+})
