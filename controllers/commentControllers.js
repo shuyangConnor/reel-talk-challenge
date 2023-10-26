@@ -41,7 +41,7 @@ exports.createComment = catchAsync(async (req, res, next) => {
     // Genereate a random id for the comment and store it in the database.
     const uuid = uuidv4()
     t.set(movieRef.collection('comments').doc(uuid), {
-      uid: req.user.uid,
+      user_ref: db.collection('users').doc(req.user.uid),
       text: req.body.text,
       likes: 0,
       timestamp: FieldValue.serverTimestamp(),
